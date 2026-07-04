@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>S Santhosh — Full-Stack &amp; Systems Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#0B1220;
+    --surface:#101A2E;
+    --surface-2:#16223A;
+    --line:#22314F;
+    --text:#E7ECF3;
+    --muted:#8A96AC;
+    --amber:#E8A33D;
+    --teal:#4FD1C5;
+    --radius:2px;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter', sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  ::selection{ background:var(--amber); color:#0B1220; }
+
+  a{ color:inherit; text-decoration:none; }
+
+  .wrap{
+    max-width:1080px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  h1,h2,h3{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    letter-spacing:-0.01em;
+  }
+
+  .mono{
+    font-family:'JetBrains Mono', monospace;
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:50;
+    background:rgba(11,18,32,0.85);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    height:64px;
+  }
+  .brand{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:15px;
+    letter-spacing:0.02em;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .brand .dot{
+    width:8px; height:8px;
+    background:var(--teal);
+    border-radius:50%;
+    box-shadow:0 0 8px var(--teal);
+  }
+  .navlinks{
+    display:flex;
+    gap:32px;
+    font-size:13px;
+    font-family:'JetBrains Mono', monospace;
+    color:var(--muted);
+  }
+  .navlinks a{ transition:color .2s; }
+  .navlinks a:hover{ color:var(--amber); }
+  .navlinks span{ color:var(--line); }
+
+  @media (max-width:720px){
+    .navlinks{ display:none; }
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    padding-top:64px;
+    border-bottom:1px solid var(--line);
+    overflow:hidden;
+  }
+  #netCanvas{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    opacity:0.55;
+  }
+  .hero-inner{
+    position:relative;
+    z-index:2;
+    width:100%;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--teal);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:24px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:20px; height:1px;
+    background:var(--teal);
+  }
+  .hero h1{
+    font-size:clamp(38px, 6vw, 68px);
+    line-height:1.05;
+    max-width:820px;
+    margin-bottom:20px;
+  }
+  .hero h1 .accent{ color:var(--amber); }
+  .hero p.lede{
+    font-size:17px;
+    color:var(--muted);
+    max-width:560px;
+    margin-bottom:36px;
+  }
+  .hero-cta{
+    display:flex;
+    gap:16px;
+    flex-wrap:wrap;
+    align-items:center;
+    margin-bottom:56px;
+  }
+  .btn{
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    padding:13px 22px;
+    border-radius:var(--radius);
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    transition:all .2s ease;
+    border:1px solid transparent;
+  }
+  .btn-primary{
+    background:var(--amber);
+    color:#0B1220;
+    font-weight:600;
+  }
+  .btn-primary:hover{ background:#f3b658; transform:translateY(-1px); }
+  .btn-ghost{
+    border-color:var(--line);
+    color:var(--text);
+  }
+  .btn-ghost:hover{ border-color:var(--teal); color:var(--teal); }
+
+  .readout{
+    display:flex;
+    gap:36px;
+    flex-wrap:wrap;
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--muted);
+    border-top:1px solid var(--line);
+    padding-top:20px;
+  }
+  .readout .val{
+    color:var(--text);
+    font-size:20px;
+    font-weight:600;
+    display:block;
+    margin-bottom:4px;
+  }
+  .readout .val.live{ color:var(--teal); }
+
+  /* ---------- SECTION SHELL ---------- */
+  section{
+    padding:96px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    gap:16px;
+    margin-bottom:48px;
+  }
+  .section-num{
+    font-family:'JetBrains Mono', monospace;
+    color:var(--amber);
+    font-size:13px;
+  }
+  .section-head h2{
+    font-size:28px;
+  }
+  .section-sub{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--muted);
+    margin-left:auto;
+    text-align:right;
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{
+    display:grid;
+    grid-template-columns:1.4fr 1fr;
+    gap:64px;
+  }
+  .about-grid p{
+    color:var(--muted);
+    font-size:16px;
+    margin-bottom:16px;
+    max-width:560px;
+  }
+  .about-grid p strong{ color:var(--text); font-weight:500; }
+  .stack-col{
+    border-left:1px solid var(--line);
+    padding-left:32px;
+  }
+  .stack-group{ margin-bottom:28px; }
+  .stack-group h4{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    color:var(--muted);
+    margin-bottom:12px;
+  }
+  .pill-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .pill{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    padding:6px 12px;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    color:var(--text);
+    background:var(--surface);
+  }
+
+  @media (max-width:800px){
+    .about-grid{ grid-template-columns:1fr; }
+    .stack-col{ border-left:none; padding-left:0; border-top:1px solid var(--line); padding-top:32px; }
+  }
+
+  /* ---------- PROJECTS ---------- */
+  .project{
+    display:grid;
+    grid-template-columns:80px 1fr;
+    gap:32px;
+    padding:36px 0;
+    border-top:1px solid var(--line);
+  }
+  .project:first-of-type{ border-top:none; }
+  .project-tag{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--amber);
+  }
+  .project h3{
+    font-size:22px;
+    margin-bottom:10px;
+  }
+  .project p.desc{
+    color:var(--muted);
+    max-width:640px;
+    margin-bottom:18px;
+    font-size:15px;
+  }
+  .spec-row{
+    display:flex;
+    gap:28px;
+    flex-wrap:wrap;
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+  }
+  .spec-row div span{ display:block; color:var(--muted); margin-bottom:4px; }
+  .spec-row div b{ color:var(--teal); font-weight:500; }
+
+  @media (max-width:700px){
+    .project{ grid-template-columns:1fr; gap:8px; }
+  }
+
+  /* ---------- EXPERIENCE TIMELINE ---------- */
+  .timeline{
+    position:relative;
+    padding-left:32px;
+  }
+  .timeline::before{
+    content:"";
+    position:absolute;
+    left:5px; top:6px; bottom:6px;
+    width:1px;
+    background:var(--line);
+  }
+  .tl-item{
+    position:relative;
+    padding-bottom:44px;
+  }
+  .tl-item:last-child{ padding-bottom:0; }
+  .tl-item::before{
+    content:"";
+    position:absolute;
+    left:-32px; top:4px;
+    width:11px; height:11px;
+    border-radius:50%;
+    background:var(--bg);
+    border:2px solid var(--teal);
+  }
+  .tl-date{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--amber);
+    margin-bottom:6px;
+    display:block;
+  }
+  .tl-item h3{ font-size:18px; margin-bottom:4px; }
+  .tl-item .org{ color:var(--muted); font-size:14px; margin-bottom:10px; }
+  .tl-item p.detail{ color:var(--muted); font-size:14.5px; max-width:600px; }
+
+  /* ---------- EDUCATION / CERTS ---------- */
+  .split{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:64px;
+  }
+  .edu-card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    padding:28px;
+    border-radius:var(--radius);
+  }
+  .edu-card h3{ font-size:18px; margin-bottom:6px; }
+  .edu-card .org{ color:var(--muted); font-size:14px; margin-bottom:14px; }
+  .edu-card .tl-date{ margin-bottom:0; }
+  .cert-list{ list-style:none; }
+  .cert-list li{
+    display:flex;
+    justify-content:space-between;
+    gap:16px;
+    padding:14px 0;
+    border-top:1px solid var(--line);
+    font-size:14.5px;
+  }
+  .cert-list li:first-child{ border-top:none; }
+  .cert-list .status{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    color:var(--teal);
+    white-space:nowrap;
+  }
+  .cert-list .status.pending{ color:var(--amber); }
+
+  @media (max-width:800px){
+    .split{ grid-template-columns:1fr; }
+  }
+
+  /* ---------- CONTACT / FOOTER ---------- */
+  footer{
+    padding:96px 0 48px;
+  }
+  .contact-inner{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    flex-wrap:wrap;
+    gap:32px;
+    margin-bottom:64px;
+  }
+  footer h2{
+    font-size:clamp(32px, 5vw, 52px);
+    max-width:600px;
+  }
+  footer h2 .accent{ color:var(--amber); }
+  .contact-links{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:14px;
+  }
+  .contact-links a{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:var(--text);
+    transition:color .2s;
+  }
+  .contact-links a:hover{ color:var(--teal); }
+  .contact-links a::before{
+    content:"→";
+    color:var(--amber);
+  }
+  .foot-bar{
+    display:flex;
+    justify-content:space-between;
+    padding-top:24px;
+    border-top:1px solid var(--line);
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    color:var(--muted);
+    flex-wrap:wrap;
+    gap:8px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    #netCanvas{ display:none; }
+  }
+
+  :focus-visible{
+    outline:2px solid var(--teal);
+    outline-offset:3px;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand"><span class="dot"></span>S.SANTHOSH</div>
+    <div class="navlinks">
+      <a href="#about">01 About</a><span>/</span>
+      <a href="#projects">02 Projects</a><span>/</span>
+      <a href="#experience">03 Experience</a><span>/</span>
+      <a href="#education">04 Education</a><span>/</span>
+      <a href="#contact">05 Contact</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <canvas id="netCanvas"></canvas>
+  <div class="hero-inner wrap">
+    <div class="eyebrow">Computer Science Engineer · Chennai, India</div>
+    <h1>Building systems that route data<br>with <span class="accent">low latency</span> and less friction.</h1>
+    <p class="lede">Final-year CSE student focused on full-stack development, edge computing, and automation — from latency-aware load balancers to facial-recognition attendance systems.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="mailto:santhosh2807s@gmail.com">Email me</a>
+      <a class="btn btn-ghost" href="https://www.linkedin.com/in/s-k-santhosh" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a class="btn btn-ghost" href="#projects">View projects</a>
+    </div>
+    <div class="readout">
+      <div><span class="val live" id="latencyReadout">— ms</span>node latency (sim)</div>
+      <div><span class="val">2</span>flagship projects</div>
+      <div><span class="val">2</span>internships completed</div>
+      <div><span class="val">2026</span>graduating</div>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrap about-grid">
+    <div>
+      <div class="section-head" style="margin-bottom:24px;">
+        <span class="section-num">01</span>
+        <h2>About</h2>
+      </div>
+      <p>I'm <strong>Santhosh</strong>, a final-year Computer Science Engineering student at Christ College of Engineering and Technology, graduating in 2026.</p>
+      <p>My work sits at the intersection of <strong>full-stack development</strong> and <strong>systems thinking</strong> — I like problems where the interesting part isn't just the UI, but what happens underneath it: how requests get routed, how a model makes a decision in real time, how a workflow runs itself.</p>
+      <p>That's shown up in a load-balancing simulation built for edge computing, a facial-recognition attendance system, and internships spanning IoT hardware and robotic process automation.</p>
+    </div>
+    <div class="stack-col">
+      <div class="stack-group">
+        <h4>Languages</h4>
+        <div class="pill-row">
+          <span class="pill">Java</span><span class="pill">Python</span><span class="pill">C</span><span class="pill">C++</span><span class="pill">JavaScript</span>
+        </div>
+      </div>
+      <div class="stack-group">
+        <h4>Web</h4>
+        <div class="pill-row">
+          <span class="pill">HTML</span><span class="pill">CSS</span><span class="pill">REST APIs</span>
+        </div>
+      </div>
+      <div class="stack-group">
+        <h4>Systems &amp; Tools</h4>
+        <div class="pill-row">
+          <span class="pill">CloudSim</span><span class="pill">OpenCV</span><span class="pill">Arduino</span><span class="pill">Raspberry Pi</span><span class="pill">RPA</span><span class="pill">Android Studio</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-num">02</span>
+      <h2>Projects</h2>
+      <span class="section-sub">selected work</span>
+    </div>
+
+    <div class="project">
+      <div class="project-tag">01</div>
+      <div>
+        <h3>Latency-Aware Load Balancer</h3>
+        <p class="desc">A load-balancing model simulated in CloudSim that shifts processing and storage closer to the end user — cutting the round-trip that real-time applications can't afford.</p>
+        <div class="spec-row">
+          <div><span>Problem</span><b>Centralized compute adds latency for real-time IoT</b></div>
+          <div><span>Approach</span><b>Edge-aware request routing &amp; simulation</b></div>
+          <div><span>Stack</span><b>Java, CloudSim</b></div>
+          <div><span>Use case</span><b>IoT / edge server computing</b></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-tag">02</div>
+      <div>
+        <h3>Facial Recognition Attendance System</h3>
+        <p class="desc">An automated attendance system that detects and identifies faces in real time and logs attendance without manual entry.</p>
+        <div class="spec-row">
+          <div><span>Problem</span><b>Manual attendance is slow and easy to spoof</b></div>
+          <div><span>Approach</span><b>Real-time face detection &amp; matching pipeline</b></div>
+          <div><span>Stack</span><b>Python, OpenCV</b></div>
+          <div><span>Use case</span><b>Classrooms / offices</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-num">03</span>
+      <h2>Experience</h2>
+      <span class="section-sub">internships</span>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <span class="tl-date">AUG — SEP 2025</span>
+        <h3>Robotic Process Automation Intern</h3>
+        <div class="org">Infosys</div>
+        <p class="detail">Built automation bots for data extraction, validation, and report generation — streamlining workflows with minimal human intervention.</p>
+      </div>
+      <div class="tl-item">
+        <span class="tl-date">OCT 2023</span>
+        <h3>IoT Intern</h3>
+        <div class="org">Vel Technology</div>
+        <p class="detail">Assisted in developing and testing IoT devices and sensor-based solutions using Arduino and Raspberry Pi.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="wrap split">
+    <div>
+      <div class="section-head" style="margin-bottom:24px;">
+        <span class="section-num">04</span>
+        <h2>Education</h2>
+      </div>
+      <div class="edu-card">
+        <span class="tl-date">2022 — 2026</span>
+        <h3>B.E. Computer Science &amp; Engineering</h3>
+        <div class="org">Christ College of Engineering and Technology</div>
+      </div>
+    </div>
+    <div>
+      <div class="section-head" style="margin-bottom:24px;">
+        <span class="section-num">05</span>
+        <h2>Certifications</h2>
+      </div>
+      <ul class="cert-list">
+        <li>Full-Stack Development with Python — Besant Technologies <span class="status pending">in progress</span></li>
+        <li>Robotic Process Automation — Infosys <span class="status">complete</span></li>
+        <li>Internet of Things — Vel Technology <span class="status">complete</span></li>
+        <li>Android Studio, hands-on — <span class="status">complete</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="contact-inner">
+      <h2>Let's build something<br>that <span class="accent">runs fast.</span></h2>
+      <div class="contact-links">
+        <a href="mailto:santhosh2807s@gmail.com">santhosh2807s@gmail.com</a>
+        <a href="tel:+917418432623">+91 7418432623</a>
+        <a href="https://www.linkedin.com/in/s-k-santhosh" target="_blank" rel="noopener">linkedin.com/in/s-k-santhosh</a>
+      </div>
+    </div>
+    <div class="foot-bar wrap" style="padding-left:0;padding-right:0;">
+      <span>© 2026 S. Santhosh</span>
+      <span>Built with intent, not a template.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Network / latency canvas — echoes the load-balancer project
+  const canvas = document.getElementById('netCanvas');
+  const ctx = canvas.getContext('2d');
+  let w, h, nodes = [];
+  const NODE_COUNT = 22;
+  const MAX_DIST = 170;
+
+  function resize(){
+    w = canvas.width = canvas.offsetWidth * devicePixelRatio;
+    h = canvas.height = canvas.offsetHeight * devicePixelRatio;
+    ctx.scale(devicePixelRatio, devicePixelRatio);
+  }
+
+  function init(){
+    nodes = [];
+    const cw = canvas.offsetWidth, ch = canvas.offsetHeight;
+    for(let i=0;i<NODE_COUNT;i++){
+      nodes.push({
+        x: Math.random()*cw,
+        y: Math.random()*ch,
+        vx: (Math.random()-0.5)*0.25,
+        vy: (Math.random()-0.5)*0.25,
+        r: Math.random()*1.6+1.2
+      });
+    }
+  }
+
+  let pulses = [];
+  function spawnPulse(){
+    if(nodes.length < 2) return;
+    const a = nodes[Math.floor(Math.random()*nodes.length)];
+    let b = nodes[Math.floor(Math.random()*nodes.length)];
+    let tries=0;
+    while(b===a && tries<5){ b = nodes[Math.floor(Math.random()*nodes.length)]; tries++; }
+    pulses.push({a, b, t:0});
+  }
+
+  const readout = document.getElementById('latencyReadout');
+  function updateReadout(){
+    const ms = (8 + Math.random()*14).toFixed(1);
+    if(readout) readout.textContent = ms + ' ms';
+  }
+
+  function draw(){
+    const cw = canvas.offsetWidth, ch = canvas.offsetHeight;
+    ctx.clearRect(0,0,cw,ch);
+
+    // move nodes
+    for(const n of nodes){
+      n.x += n.vx; n.y += n.vy;
+      if(n.x<0||n.x>cw) n.vx*=-1;
+      if(n.y<0||n.y>ch) n.vy*=-1;
+    }
+
+    // connections
+    for(let i=0;i<nodes.length;i++){
+      for(let j=i+1;j<nodes.length;j++){
+        const dx = nodes[i].x-nodes[j].x, dy = nodes[i].y-nodes[j].y;
+        const dist = Math.sqrt(dx*dx+dy*dy);
+        if(dist < MAX_DIST){
+          ctx.strokeStyle = `rgba(79,209,197,${0.14 * (1-dist/MAX_DIST)})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(nodes[i].x, nodes[i].y);
+          ctx.lineTo(nodes[j].x, nodes[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    // nodes
+    for(const n of nodes){
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(232,163,61,0.55)';
+      ctx.fill();
+    }
+
+    // pulses (data packets)
+    pulses.forEach(p => { p.t += 0.014; });
+    pulses = pulses.filter(p => p.t <= 1);
+    for(const p of pulses){
+      const x = p.a.x + (p.b.x - p.a.x)*p.t;
+      const y = p.a.y + (p.b.y - p.a.y)*p.t;
+      ctx.beginPath();
+      ctx.arc(x, y, 2.4, 0, Math.PI*2);
+      ctx.fillStyle = '#4FD1C5';
+      ctx.shadowColor = '#4FD1C5';
+      ctx.shadowBlur = 8;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+
+    requestAnimationFrame(draw);
+  }
+
+  function start(){
+    resize();
+    init();
+    draw();
+    setInterval(spawnPulse, 260);
+    setInterval(updateReadout, 900);
+    updateReadout();
+  }
+
+  window.addEventListener('resize', () => { resize(); init(); });
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!prefersReduced) start(); else { updateReadout(); }
+</script>
+
+</body>
+</html>
